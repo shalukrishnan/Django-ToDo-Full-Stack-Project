@@ -1,0 +1,57 @@
+<div id="todo-{{ todo.id }}" class="border rounded p-3 flex justify-between items-center bg-gray-50">
+
+    <div class="flex items-center gap-3">
+        
+        <!-- Toggle -->
+        <form
+            hx-post="/toggle-todo/{{ todo.id }}/"
+            hx-target="#todo-{{ todo.id }}"
+            hx-swap="outerHTML"
+        >
+            {% csrf_token %}
+            <button
+                type="submit"
+                class="w-5 h-5 border rounded {% if todo.is_completed %}bg-green-500{% endif %}"
+            ></button>
+        </form>
+
+        <!-- Text -->
+        <div>
+            <p class="font-medium {% if todo.is_completed %}line-through text-gray-400{% endif %}">
+                {{ todo.title }}
+            </p>
+            <p class="text-sm text-gray-500">
+            Priority: {{ todo.priority }}
+            </p>
+        </div>
+
+    </div>
+
+    <div class="flex items-center gap-3">
+        <!-- Edit -->
+        <button
+            hx-get="/edit-todo/{{ todo.id }}/"
+            hx-target="#todo-{{ todo.id }}"
+            hx-swap="outerHTML"
+            class="text-blue-600 font-medium"
+        >
+            Edit
+        </button>
+
+        <!-- Delete -->
+        <form
+            hx-post="/delete-todo/{{ todo.id }}/"
+            hx-target="#todo-{{ todo.id }}"
+            hx-swap="outerHTML"
+        >
+            {% csrf_token %}
+            <button
+                type="submit"
+                class="text-red-600 font-medium"
+            >
+                Delete
+            </button>
+        </form>
+    </div>
+
+</div>
